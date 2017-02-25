@@ -1,0 +1,1 @@
+#coding=utf-8import QueueQUEUE_MSG = Queue.Queue()SIGNAL_PARA = 'vis_L1'Antennas = 60visPolarition = 0visBand = 0

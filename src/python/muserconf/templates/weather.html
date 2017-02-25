@@ -1,0 +1,115 @@
+$def with (items,beginTime,endTime)
+
+<div class="page-header">
+    <h4><i class="fa fa-gears"></i>
+       Weather Configuration
+    </h4>
+</div>
+<div class="box" style="min-height: 300px;padding-top: 5px;">
+    <div class="bottomline">
+        <span>From：</span><input type="text" id="txtBegin" class="input-sm" placeholder="2014-05-28 12:23:34" value="$beginTime" />
+        <span>To：</span><input type="text" id="txtEnd" class="input-sm" placeholder="2014-09-28 12:23:34" value="$endTime" />
+        <button id="btnSearch" class="btn btn-success btn-sm search"><i class="fa fa-search fa-fw"></i> Search</button>
+        <button class="btn btn-success btn-sm new pull-right"><i class="fa fa-plus fa-fw"></i> New</button>
+    </div>
+    <table class="table table-hover table-condensed" style="max-height: 300px;">
+        <thead>
+            <tr>
+                <th width="180">Time</th>
+                <th>Value</th>
+                <th width="200">Operation</th>
+            </tr>
+        </thead>
+        <tbody>
+        $for v in items:
+            <tr>
+                <td>
+                    $v.refTime
+                </td>
+                <td>
+                    $if len(v.theValue) > 70:
+                        $v.theValue[0:70] ......
+                    $else :
+                        $v.theValue
+                </td>
+
+                <td>
+                     <button class="btn btn-info btn-xs modify" title="$v.id||||$v.refTime||||$v.theValue"><i class="fa fa-edit"></i> Modify</button>
+                     <button class="btn btn-danger btn-xs removeone" title="$v.id"><i class="fa fa-trash-o"></i> Remove</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="modal fade" id="createDirDlg" role="dialog" aria-labelledby="CreateDir" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">New Value</div>
+            <div class="modal-body">
+               <form action="weatherOp" method="post" id="saveForm">
+                    <input type="hidden" id="txtAction" name="action" value="save"/>
+                    <input type="hidden" id="txtId" name="id" value="0"/>
+                    <input type="hidden" name="beginTime" value="$beginTime" />
+                    <input type="hidden" name="endTime" value="$endTime" />
+                <div class="form-group">
+                    <label for="refTime">Time : </label>
+                    <input type="text" id="txtRefTime" name="refTime" class="form-control" placeholder="2014-05-28 12:23:34" value="$endTime"  />
+                </div>
+                <div class="form-group">
+                    <label for="theValue">Value : </label>
+                    <textarea id="txtValue" name="theValue" class="form-control" rows="8"></textarea>
+                </div>
+                </form>
+            </div>
+			<div class="modal-footer">
+                <button class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                <button class="btn btn-success btn-sm" id="btnSave">Save</button>
+			</div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$$(document).ready(function() {
+    $$("ul li.mi-weather").addClass('active');
+    $$("#txtBegin").datepicker({dateFormat:"yy-mm-dd 00:00:00"});
+    $$("#txtEnd").datepicker({dateFormat:"yy-mm-dd 23:59:59"});
+    $$("#txtRefTime").datepicker({dateFormat:"yy-mm-dd 00:00:00"});
+
+    $$("#createDirDlg").modal({backdrop:false,show:false});
+    $$("#createDirDlg").draggable({handle: ".modal-header"});
+
+    $$("button.removeone").each(function(){
+        $$(this).click(function() {
+            if(confirm("Are you sure to remove?"))
+                window.location.href = "weatherOp?action=remove&id=" + $$(this).attr("title") + "&beginTime=$beginTime&endTime=$endTime";
+        });
+    });
+    $$("button.modify").each(function(){
+        $$(this).click(function() {
+            $$("#createDirDlg").modal('show');
+            $$("#txtAction").val('edit');
+
+            var scoreValue = $$(this).attr("title");
+            var scoreValueArray = scoreValue.split("||||");
+            $$("#txtId").val(scoreValueArray[0]);
+            $$("#txtRefTime").val(scoreValueArray[1]);
+            $$("#txtValue").val(scoreValueArray[2]);
+            $$("#createDirDlg .modal-header").html("Edit Value " + scoreValueArray[1]);
+
+        });
+    });
+    $$("button.new").click(function() {
+        $$("#createDirDlg").modal('show');
+        $$("#txtAction").val('add');
+        $$("#createDirDlg .modal-header").html("New Value");
+    });
+    $$("#btnSearch").click(function() {
+        window.location.href = 'weather?beginTime=' + $$("#txtBegin").val() + '&endTime=' + $$("#txtEnd").val()
+    });
+    $$("#btnSave").click(function() {
+        $$("#saveForm").submit();
+    });
+
+});
+</script>

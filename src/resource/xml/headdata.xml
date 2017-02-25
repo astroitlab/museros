@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" ?>
+<muserxml xmlns="http://casa.nrao.edu/schema/psetTypes.html"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://casa.nrao.edu/schema/casa.xsd
+      file:///opt/casa/code/xmlcasa/xml/casa.xsd">
+
+<task type="function" name="datahead" category="import/export">
+	<shortdescription>Convert a MUSER visibility file into a UVFITS file</shortdescription>
+	<description>
+        Convert a MUSER visibility file into a UVFITS file with
+	optional selection of spectral windows and weighting scheme
+	</description>
+	<input>
+		<param type="int" name="muser">
+			<description>Sub array ID (1 - low/ 2:high)</description>
+			<value>1</value>
+                        <example>muser=1</example>
+		</param>
+
+		<param type="string" name="inputfile" mustexist="true">
+			<description>Name of input MUSER visibility file</description>
+			<value></value>
+                        <example>inputfile='mydata'</example>
+		</param>
+
+		<param type="xs:dateTime" name="start">
+			<description>The start date and time of MUSER raw data</description>
+			<value></value>
+                        <example>start='2016-02-18 09:30:10.5'</example>
+		</param>
+
+		<param type="int" name="frame">
+			<description>The number of frames</description>
+			<value>1</value>
+                        <example>frame=1</example>
+		</param>
+
+		<param type="int" name="debug">
+			<description>Display increasingly verbose debug messages</description>
+			<value>0</value>
+                        <example>debug=1</example>
+		</param>
+                <constraints>
+                </constraints>
+	</input>
+<returns type="void"/>
+
+<example>
+
+        headdata(muser=1, inputfile='CSRH20151101', start='2015-11-01 18:30:00', frame =1)
+
+ </example>
+ </task>
+ </muserxml>

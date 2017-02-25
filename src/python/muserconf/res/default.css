@@ -1,0 +1,530 @@
+bs-header/*
+ * Scaffolding
+ *
+ * Update the basics of our documents to prep for docs content.
+ */
+
+body {
+}
+a,a:hover,a:focus{
+  color:#183A57;
+}
+.wraper {width: 100%;margin: 0 auto;}
+/* Keep code small in tables on account of limited space */
+.table code {
+  font-size: 13px;
+  font-weight: normal;
+}
+.page-header {
+  padding: 0px 0 5px 0;
+  margin-bottom: 5px;
+  border-bottom: 1px solid #eeeeee;
+}
+.page-header h3 {
+  display: inline;
+}
+.page-header em {
+  border-left: 1px solid #eeeeee;
+  padding-left:10px;
+  margin-left:10px;
+}
+/**/
+.masterHead {
+    height: 45px;margin: 5px;padding-top: 5px;
+}
+.top-logo .fa{
+    color: #111111;
+}
+.top-logo .top-brand {
+    font-family: museo-slab, Georgia, "Times New Roman", Times, serif;
+    font-weight: 300;
+    font-size: 24px;
+    width: 240px;
+}
+.top-logo a {
+    text-decoration: none;
+}
+/*
+ * Main navigation
+ *
+ * Turn the `.navbar` at the top of the docs purple.
+ */
+
+.bs-docs-nav {
+  text-shadow: 0 -1px 0 rgba(0,0,0,.15);
+  background-color: #009A44;
+  border-color: #336633;
+  box-shadow: 0 1px 0 rgba(255,255,255,.1);
+}
+.bs-docs-nav .navbar-collapse {
+  border-color: #336633;
+}
+.bs-docs-nav .navbar-header {
+    width: 160px;height: 50px;
+    background: url("./images/conf-logo.png") top left no-repeat;
+}
+.bs-docs-nav .navbar-nav > li > a {
+  color: #fefefe;
+}
+.bs-docs-nav .navbar-nav > li > a:hover {
+  background-color: #336633;
+}
+.bs-docs-nav .navbar-nav > .active > a,
+.bs-docs-nav .navbar-nav > .active > a:hover,.dropdown-toggle a {
+  background-color: #336633;
+}
+
+.bs-docs-nav .navbar-toggle {
+  border-color: #336633;
+}
+
+.bs-docs-nav .navbar-toggle:hover {
+  background-color: #336633;
+  border-color: #336633;
+}
+.navbar-brand {
+    font-family: museo-slab, Georgia, "Times New Roman", Times, serif;
+    font-weight: 300;
+    font-size: 20px;
+    width: 240px;
+}
+
+/*
+ * Footer
+ *
+ * Separated section of content at the bottom of all pages, save the homepage.
+ */
+
+.footer {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-top: 30px;
+  color: #777;
+  text-align: center;
+  border-top: 1px solid #e5e5e5;
+}
+.footer-links {
+  margin: 10px 0;
+  padding-left: 0;
+}
+.footer-links li {
+  display: inline;
+  padding: 0 2px;
+}
+.footer-links li:first-child {
+  padding-left: 0;
+}
+
+
+/* Page headers */
+.bs-header {
+  padding: 30px 15px 40px; /* side padding builds on .container 15px, so 30px */
+  font-size: 16px;
+  text-align: center;
+  text-shadow: 0 1px 0 rgba(0,0,0,.15);
+}
+.bs-header h1 {
+  color: #fff;
+}
+.bs-header p {
+  font-weight: 300;
+  line-height: 1.5;
+}
+.bs-header .container {
+  position: relative;
+}
+.bs-header {
+  color: #cdbfe3;
+  background-color: #563d7c;
+  height: 231px;overflow: hidden;
+}
+/*
+ * Side navigation
+ *
+ * Scrollspy and affixed enhanced navigation to highlight sections and secondary
+ * sections of docs content.
+ */
+
+/* By default it's not affixed in mobile views, so undo that */
+.bs-sidebar.affix {
+  position: static;
+}
+
+/* First level of nav */
+.bs-sidenav {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding-top:    10px;
+  padding-bottom: 10px;
+  text-shadow: 0 1px 0 #fff;
+  background-color: #f7f5fa;
+  border-radius: 5px;
+}
+
+/* All levels of nav */
+.bs-sidebar .nav > li > a {
+  display: block;
+  color: #716b7a;
+  padding: 5px 20px;
+}
+.bs-sidebar .nav > li > a:hover,
+.bs-sidebar .nav > li > a:focus {
+  text-decoration: none;
+  background-color: #e5e3e9;
+  border-right: 1px solid #dbd8e0;
+}
+.bs-sidebar .nav > .active > a,
+.bs-sidebar .nav > .active:hover > a,
+.bs-sidebar .nav > .active:focus > a {
+  font-weight: bold;
+  color: #563d7c;
+  background-color: transparent;
+  border-right: 1px solid #563d7c;
+}
+
+/* Nav: second level (shown on .active) */
+.bs-sidebar .nav .nav {
+  display: none; /* Hide by default, but at >768px, show it */
+  margin-bottom: 8px;
+}
+.bs-sidebar .nav .nav > li > a {
+  padding-top:    3px;
+  padding-bottom: 3px;
+  padding-left: 30px;
+  font-size: 90%;
+}
+
+
+
+/*
+ * Docs sections
+ *
+ * Content blocks for each component or feature.
+ */
+
+/* Space things out */
+.bs-docs-section + .bs-docs-section {
+  padding-top: 20px;
+}
+
+/* Janky fix for preventing navbar from overlapping */
+h1[id] {
+  padding-top: 80px;
+  margin-top: -45px;
+}
+
+
+/*
+ * Grid examples
+ *
+ * Highlight the grid columns within the docs so folks can see their padding,
+ * alignment, sizing, etc.
+ */
+
+.show-grid {
+  margin-bottom: 15px;
+}
+.show-grid [class^="col-"] {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #eee;
+  border: 1px solid #ddd;
+  background-color: rgba(86,61,124,.15);
+  border: 1px solid rgba(86,61,124,.2);
+}
+
+
+/*
+ * Code snippets
+ *
+ * Generated via Pygments and Jekyll, these are snippets of HTML, CSS, and JS.
+ */
+
+.highlight {
+  display: none; /* hidden by default, until >480px */
+  padding: 9px 14px;
+  margin-bottom: 14px;
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+  border-radius: 4px;
+}
+.highlight pre {
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  background-color: transparent;
+  border: 0;
+  white-space: nowrap;
+}
+.highlight pre code {
+  font-size: inherit;
+  color: #333; /* Effectively the base text color */
+}
+.highlight pre .lineno {
+  display: inline-block;
+  width: 22px;
+  padding-right: 5px;
+  margin-right: 10px;
+  text-align: right;
+  color: #bebec5;
+}
+/*
+ * Miscellaneous
+ *
+ * Odds and ends for optimum docs display.
+ */
+
+ /* About page */
+ .bs-about {
+  font-size: 16px;
+ }
+/* Pseudo :focus state for showing how it looks in the docs */
+#focusedInput {
+  border-color: rgba(82,168,236,.8);
+  outline: 0;
+  outline: thin dotted \9; /* IE6-9 */
+  -moz-box-shadow: 0 0 8px rgba(82,168,236,.6);
+       box-shadow: 0 0 8px rgba(82,168,236,.6);
+}
+
+
+.line-toolbar {
+    border: 1px solid #ccc;
+    overflow: hidden;line-height:26px;vertical-align: middle;
+    background: -webkit-gradient(linear, left top, left bottom, from(#fcfcfc), to(#f1f1f1));
+    background: -moz-linear-gradient(top, #fcfcfc, #f1f1f1);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#fcfcfc', endColorstr='#f1f1f1');
+    background: -o-linear-gradient(top, #fcfcfc, #f1f1f1);
+    background: linear-gradient(top, #fcfcfc, #f1f1f1);
+    padding: 2px;
+}
+.ml5 {margin-left: 5px;}
+#loading {background:url('./images/loading.gif') no-repeat 0 5px;color:#fff;padding-left:20px;display:none;height:26px;line-height:26px;}
+.bottomline {border-bottom: 1px solid #eeeeee;padding-bottom: 10px;}
+.bs-header .spider {
+  width:200px;color: #eee;font-size:160px;padding: 0px 100px 0px 0px;display: block;
+}
+.bs-header .spider:before {
+    font-size: 160px;
+    color: #eee;
+}
+
+/***
+Dashboard Stats
+***/
+.dashboard-stat {
+  display: block;
+  margin-bottom: 10px;
+  overflow: hidden;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+}
+.dashboard-stat:before, .dashboard-stat:after {
+  content: " ";
+  display: table;
+}
+.dashboard-stat:after {
+  clear: both;
+}
+.portlet .dashboard-stat:last-child {
+  margin-bottom: 0;
+}
+.dashboard-stat .visual {
+  width: 80px;
+  height: 80px;
+  display: block;
+  float: left;
+  padding-top: 10px;
+  padding-left: 15px;
+  margin-bottom: 15px;
+  font-size: 35px;
+  line-height: 35px;
+}
+.dashboard-stat .visual > i {
+  margin-left: -35px;
+  font-size: 110px;
+  line-height: 110px;
+}
+.dashboard-stat .details {
+  position: absolute;
+  right: 15px;
+  padding-right: 15px;
+}
+.dashboard-stat .details .number {
+  padding-top: 15px;
+  text-align: right;
+  font-size: 34px;
+  line-height: 36px;
+  letter-spacing: -1px;
+  margin-bottom: 0px;
+  font-weight: 300;
+}
+.dashboard-stat .details .desc {
+  text-align: right;
+  font-size: 14px;
+  letter-spacing: 0px;
+  font-weight: 300;
+}
+
+/* Statistic Block */
+.dashboard-stat.green-haze {
+  background-color: #44b6ae;
+}
+.dashboard-stat.green-haze.dashboard-stat-light:hover {
+  background-color: #3ea7a0;
+}
+.dashboard-stat.green-haze .visual > i {
+  color: #FFFFFF;
+  opacity: 0.1;
+  filter: alpha(opacity=10);
+}
+.dashboard-stat.green-haze .details .number {
+  color: #FFFFFF;
+}
+.dashboard-stat.green-haze .details .desc {
+  color: #FFFFFF;
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+.dashboard-stat.green-haze .more {
+  color: #FFFFFF;
+  background-color: #3ea7a0;
+}
+
+/* Statistic Block */
+.dashboard-stat.red-haze {
+  background-color: #f36a5a;
+}
+.dashboard-stat.red-haze.dashboard-stat-light:hover {
+  background-color: #f25947;
+}
+.dashboard-stat.red-haze .visual > i {
+  color: #FFFFFF;
+  opacity: 0.1;
+  filter: alpha(opacity=10);
+}
+.dashboard-stat.red-haze .details .number {
+  color: #FFFFFF;
+}
+.dashboard-stat.red-haze .details .desc {
+  color: #FFFFFF;
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+.dashboard-stat.red-haze .more {
+  color: #FFFFFF;
+  background-color: #f25947;
+}
+.dashboard-welcome {
+  margin: 0px;
+  height: 220px;
+  text-shadow: 0 -1px 0 rgba(0,0,0,.15);
+  background-color: #009A44;
+  border :0px;
+  color:#fff;
+  box-shadow: 0 1px 0 rgba(255,255,255,.1);
+
+}
+.dashboard-welcome .container {height:220px;margin-top: 50px; background: #009A44 url("./images/welcome-bg.jpg") no-repeat right top;}
+.dashboard-welcome h1 {font-size: 38px;}
+.dashboard-welcome p {width: 80%;margin-top: 40px;}
+
+.pagination {
+  display: inline-block;
+  padding: 0;
+  margin: 0px 0px 0px 5px;
+  border-radius: 4px;
+}
+.pagination ul {
+  list-style-type: none;
+}
+.pagination li {
+  display: inline;
+}
+.pagination li {
+  display: inline;
+}
+.pagination li > a,
+.pagination li > span {
+  position: relative;
+  float: left;
+  padding: 6px 12px;
+  line-height: 1.428571429;
+  text-decoration: none;
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  margin-left: -1px;
+}
+.pagination li:first-child > a,
+.pagination li:first-child > span {
+  margin-left: 0;
+  border-bottom-left-radius: 4px;
+  border-top-left-radius: 4px;
+}
+.pagination li:last-child > a,
+.pagination li:last-child > span {
+  border-bottom-right-radius: 4px;
+  border-top-right-radius: 4px;
+}
+.pagination li > a:hover,
+.pagination li > span:hover,
+.pagination li > a:focus,
+.pagination li > span:focus {
+  background-color: #eeeeee;
+}
+.pagination .active > a,
+.pagination .active > span,
+.pagination .active > a:hover,
+.pagination .active > span:hover,
+.pagination .active > a:focus,
+.pagination .active > span:focus {
+  z-index: 2;
+  color: #ffffff;
+  background-color: #428bca;
+  border-color: #428bca;
+  cursor: default;
+}
+.pagination .disabled > span,
+.pagination .disabled > span:hover,
+.pagination .disabled > span:focus,
+.pagination .disabled > a,
+.pagination .disabled > a:hover,
+.pagination .disabled > a:focus {
+  color: #999999;
+  background-color: #ffffff;
+  border-color: #dddddd;
+  cursor: not-allowed;
+}
+.pagination-lg li > a,
+.pagination-lg li > span {
+  padding: 10px 16px;
+  font-size: 18px;
+}
+.pagination-lg li:first-child > a,
+.pagination-lg li:first-child > span {
+  border-bottom-left-radius: 6px;
+  border-top-left-radius: 6px;
+}
+.pagination-lg li:last-child > a,
+.pagination-lg li:last-child > span {
+  border-bottom-right-radius: 6px;
+  border-top-right-radius: 6px;
+}
+.pagination-sm li > a,
+.pagination-sm li > span {
+  padding: 5px 10px;
+  font-size: 12px;
+}
+.pagination-sm li:first-child > a,
+.pagination-sm li:first-child > span {
+  border-bottom-left-radius: 3px;
+  border-top-left-radius: 3px;
+}
+.pagination-sm li:last-child > a,
+.pagination-sm li:last-child > span {
+  border-bottom-right-radius: 3px;
+  border-top-right-radius: 3px;
+}

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" ?>
+<muserxml xmlns="http://casa.nrao.edu/schema/psetTypes.html"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://casa.nrao.edu/schema/casa.xsd
+      file:///opt/casa/code/xmlcasa/xml/casa.xsd">
+
+<task type="function" name="clean" category="import/export">
+	<shortdescription>Convert a MUSER satellite visibility file into a calibration file</shortdescription>
+	<description>
+        Convert a MUSER satellite visibility file into a calibration file
+	</description>
+	<input>
+
+		<param type="string" name="inputfile" mustexist="true">
+			<description>Name of input MUSER visibility file</description>
+			<value></value>
+                        <example>inputfile='mydata'</example>
+		</param>
+
+        <param type="string" name="outdir" mustexist="true">
+			<description>Name of input MUSER visibility file</description>
+			<value></value>
+                        <example>inputfile='mydata'</example>
+		</param>
+
+		<param type="bool" name="fits">
+			<description>Output FITS file</description>
+			<value>True</value>
+		</param>
+
+        <param type="bool" name="plot">
+			<description>Plot image file</description>
+			<value>True</value>
+		</param>
+
+		<param type="bool" name="correct">
+			<description>Corret the phase </description>
+			<value>True</value>
+		</param>
+
+		<param type="int" name="debug">
+			<description>Display increasingly verbose debug messages</description>
+			<value>0</value>
+                        <example>debug=1</example>
+		</param>
+                <constraints>
+                </constraints>
+	</input>
+<returns type="void"/>
+
+<example>
+
+        clean(inputfile='CSRH20151101', )
+
+ </example>
+ </task>
+ </muserxml>

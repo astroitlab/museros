@@ -1,0 +1,64 @@
+from opencluster:origin
+MAINTAINER Shoulin Wei "wsl@cnlab.net"
+
+RUN yum -y install mysql-devel libxml2-devel libxslt-devel
+
+ADD http://muser.cnlab.net/package/python/psutil-3.2.1.tar.gz /work/psutil-3.2.1.tar.gz
+RUN cd /work && tar zxf psutil-3.2.1.tar.gz && cd /work/psutil-3.2.1 && python setup.py install && rm -f /work/psutil-3.2.1.tar.gz && rm -rf /work/psutil-3.2.1
+
+ADD http://muser.cnlab.net/package/python/lz4-0.7.0.tar.gz /work/lz4-0.7.0.tar.gz
+RUN cd /work && tar zxf lz4-0.7.0.tar.gz && cd /work/lz4-0.7.0 && python setup.py install && rm -f /work/lz4-0.7.0.tar.gz && rm -rf /work/lz4-0.7.0
+
+ADD http://muser.cnlab.net/package/python/web.py-0.37-cnlab.tar.gz /work/web.py-0.37-cnlab.tar.gz
+RUN cd /work && tar zxf web.py-0.37-cnlab.tar.gz && cd /work/web.py-0.37-cnlab && python setup.py install && rm -f /work/web.py-0.37-cnlab.tar.gz && rm -rf /work/web.py-0.37-cnlab
+
+ADD http://muser.cnlab.net/package/zmq/zeromq-4.0.4.tar.gz /work/zeromq-4.0.4.tar.gz
+RUN cd /work && tar zxf zeromq-4.0.4.tar.gz && cd /work/zeromq-4.0.4 && ./configure && make && make install && rm -f /work/zeromq-4.0.4.tar.gz && rm -rf /work/zeromq-4.0.4
+
+ADD http://muser.cnlab.net/package/zmq/czmq-2.2.0.tar.gz /work/czmq-2.2.0.tar.gz
+RUN cd /work && tar zxf czmq-2.2.0.tar.gz && cd /work/czmq-2.2.0 && ./configure && make && make install && rm -f /work/czmq-2.2.0.tar.gz && rm -rf /work/czmq-2.2.0
+
+ADD http://muser.cnlab.net/package/zmq/pyzmq-14.3.1.tar.gz /work/pyzmq-14.3.1.tar.gz
+RUN cd /work && tar zxf pyzmq-14.3.1.tar.gz && cd /work/pyzmq-14.3.1 && python setup.py install && rm -f /work/pyzmq-14.3.1.tar.gz && rm -f /work/pyzmq-14.3.1
+
+ADD http://muser.cnlab.net/package/python/MySQL-python-1.2.5.zip /work/MySQL-python-1.2.5.zip
+RUN cd /work && unzip MySQL-python-1.2.5.zip && cd /work/MySQL-python-1.2.5 && python setup.py build && python setup.py install && rm -f /work/pyzmq-14.3.1.tar.gz && rm -f /work/MySQL-python-1.2.5
+
+ADD http://muser.cnlab.net/package/python/kafka-python-0.9.5.tar.gz /work/kafka-python-0.9.5.tar.gz
+RUN cd /work && tar zxf kafka-python-0.9.5.tar.gz && cd /work/kafka-python-0.9.5 && python setup.py install && rm -f /work/kafka-python-0.9.5.tar.gz && rm -f /work/kafka-python-0.9.5
+
+ADD http://muser.cnlab.net/package/python/redis-2.10.5.tar.gz /work/redis-2.10.5.tar.gz
+RUN cd /work && tar zxf redis-2.10.5.tar.gz && cd /work/redis-2.10.5 && python setup.py install && rm -f /work/redis-2.10.5.tar.gz && rm -rf /work/redis-2.10.5
+
+ADD http://muser.cnlab.net/package/python/lxml-3.4.4.tar.gz /work/lxml-3.4.4.tar.gz
+RUN cd /work && tar zxf lxml-3.4.4.tar.gz && cd /work/lxml-3.4.4 && python setup.py install && rm -f /work/lxml-3.4.4.tar.gz && rm -rf /work/lxml-3.4.4
+
+ADD http://muser.cnlab.net/package/python/numpy-1.10.1.tar.gz /work/numpy-1.10.1.tar.gz
+RUN cd /work && tar zxf numpy-1.10.1.tar.gz && cd /work/numpy-1.10.1 && python setup.py install && rm -f /work/numpy-1.10.1.tar.gz && rm -rf /work/numpy-1.10.1
+
+RUN yum -y install scipy
+
+ADD http://muser.cnlab.net/package/python/pip-7.1.2.tar.gz /work/pip-7.1.2.tar.gz
+RUN cd /work && tar zxf pip-7.1.2.tar.gz && cd /work/pip-7.1.2 && python setup.py install && rm -f /work/pip-7.1.2.tar.gz && rm -rf /work/pip-7.1.2
+RUN echo "export nameserver 8.8.8.8" >> /etc/resolv.conf && echo "export nameserver 8.8.4.4" >> /etc/resolv.conf
+
+ADD http://muser.cnlab.net/package/python/d2to1-0.2.12.post1.tar.gz /work/d2to1-0.2.12.post1.tar.gz
+RUN cd /work && tar zxf d2to1-0.2.12.post1.tar.gz && cd /work/d2to1-0.2.12.post1 && python setup.py install && rm -f /work/d2to1-0.2.12.post1.tar.gz && rm -rf /work/d2to1-0.2.12.post1
+
+ADD http://muser.cnlab.net/package/python/stsci.distutils-0.3.7.tar.gz /work/stsci.distutils-0.3.7.tar.gz
+RUN cd /work && tar zxf stsci.distutils-0.3.7.tar.gz && cd /work/stsci.distutils-0.3.7 && python setup.py install && rm -f /work/stsci.distutils-0.3.7.tar.gz && rm -rf /work/stsci.distutils-0.3.7
+
+ADD http://muser.cnlab.net/package/python/pyfits-3.3.tar.gz /work/pyfits-3.3.tar.gz
+RUN cd /work && tar zxf pyfits-3.3.tar.gz && cd /work/pyfits-3.3 && python setup.py install && rm -f /work/pyfits-3.3.tar.gz && rm -rf /work/pyfits-3.3
+
+# opencluster configuration
+
+RUN mkdir -p /work/opencluster/logs && mkdir -p /work/opencluster/disk
+
+ADD http://muser.cnlab.net/muser/opencluster/logging.txt /work/opencluster/logging.conf
+RUN chown -R muser:muser /work && useradd wsl -p wsl &&  chmod -R a+w /work
+
+# add hostnames of local network
+ADD scripts /bin/scripts
+RUN chmod a+x /bin/scripts/start.sh
+ENTRYPOINT ["/bin/scripts/start.sh"]

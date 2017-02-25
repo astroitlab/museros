@@ -1,0 +1,5 @@
+taskname           = "importuvfits"
+fitsfile           =  "20131224-155959_777888980.fits"
+vis                =  "point.ms"
+antnamescheme      =  "old"
+#importuvfits(fitsfile="20131224-155959_777888980.fits",vis="point.ms",antnamescheme="old")

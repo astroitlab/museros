@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" ?>
+<muserxml xmlns="http://casa.nrao.edu/schema/psetTypes.html"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://casa.nrao.edu/schema/casa.xsd
+      file:///opt/casa/code/xmlcasa/xml/casa.xsd">
+
+<task type="function" name="synciers" category="utility">
+	<shortdescription>Synchronize IERS data</shortdescription>
+	<description>
+        Synchronize IERS data
+	</description>
+	<input>
+		<param type="int" name="debug">
+			<description>Display increasingly verbose debug messages</description>
+			<value>0</value>
+                        <example>debug=1</example>
+		</param>
+                <constraints>
+                </constraints>
+	</input>
+<returns type="void"/>
+
+<example>
+        synciers(debug=0)
+
+ </example>
+ </task>
+ </muserxml>

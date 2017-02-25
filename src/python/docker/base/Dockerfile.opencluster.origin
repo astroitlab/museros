@@ -1,0 +1,40 @@
+from centos:latest
+MAINTAINER Shoulin Wei "wsl@cnlab.net"
+
+ADD scripts /tmp/scripts
+
+# install ssh server
+
+RUN yum -y update
+RUN yum install -y wget curl
+RUN yum groupinstall -y "Development Tools"
+RUN yum install -y devtoolset-2-toolchain
+RUN yum -y install python-devel zlib-devel libcurl-devel openssl-devel cyrus-sasl-devel cyrus-sasl-md5 apr-devel subversion-devel apr-util-devel mysql-devel openssh-server
+RUN mkdir -p /var/run/sshd
+
+# set root ssh password : muser
+RUN echo "root:muser" | chpasswd
+RUN useradd muser -p csrh123
+#RUN echo "muser:csrh123" | chpasswd
+RUN ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -q -N ""
+
+RUN mkdir -p /work
+
+# install jdk
+ADD http://muser.cnlab.net/package/3rdparty/jdk-8u60-linux-x64.rpm /work/jdk-8u60-linux-x64.rpm
+RUN cd /work && yum -y install jdk-8u60-linux-x64.rpm && rm -f /work/jdk-8u60-linux-x64.rpm
+
+# install maven
+ADD http://muser.cnlab.net/package/3rdparty/apache-maven-3.3.3-bin.tar.gz /work/apache-maven-3.3.3-bin.tar.gz
+ADD cd /work && tar zxf apache-maven-3.3.3-bin.tar.gz
+RUN echo "export MAVEN_HOME=/work/apache-maven-3.3.3" >> /etc/profile
+
+# set JAVA env
+RUN echo "export JAVA_HOME=/usr/java/jdk1.8.0_60" >> /etc/profile
+RUN echo "export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar" >> /etc/profile
+RUN echo "export PATH=$PATH:$JAVA_HOME/bin:$MAVEN_HOME/bin" >> /etc/profile
+RUN source /etc/profile
+ENV JAVA_HOME  /usr/java/jdk1.8.0_60
+
+RUN sh /tmp/scripts/setup_mesos.sh
+

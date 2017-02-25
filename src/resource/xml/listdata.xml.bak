@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" ?>
+<muserxml xmlns="http://casa.nrao.edu/schema/psetTypes.html"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://casa.nrao.edu/schema/casa.xsd
+      file:///opt/casa/code/xmlcasa/xml/casa.xsd">
+
+<task type="function" name="listdata" category="import/export">
+	<shortdescription>List observational data information by a specified date</shortdescription>
+	<description>
+        List observational data information by a specified date
+	</description>
+	<input>
+		<param type="int" name="muser">
+			<description>Sub array ID (1 - low/ 2:high)</description>
+			<value>1</value>
+                        <example>muser=1</example>
+		</param>
+
+		<param type="xs:dateTime" name="start">
+			<description>The start date and time of MUSER raw data</description>
+			<value></value>
+                        <example>start='2016-02-18 09:30:10.5'</example>
+		</param>
+                <constraints>
+                </constraints>
+
+		<param type="int" name="debug">
+			<description>Display increasingly verbose debug messages</description>
+			<value>0</value>
+                        <example>debug=1</example>
+		</param>
+	</input>
+<returns type="void"/>
+
+<example>
+
+        listdata(muser=1, start='2015-11-01 18:30:00')
+
+ </example>
+ </task>
+ </muserxml>

@@ -1,0 +1,52 @@
+$def with (fileList)
+
+<div class="box" style="min-height: 300px;padding-top: 5px;">
+    <div class="col-md-12">
+        <div class="btn-group">
+            <button class="btn btn-success btn-sm"><i class="fa fa-download fa-fw"></i> Download</button>
+        </div>
+        <table class="table table-hover table-condensed" style="max-height: 300px;">
+            <thead>
+                <tr>
+                    <th width="300"><input type="checkbox" name="chkAll" value="1" />FileName</th>
+                    <th width="100">Size</th>
+                    <th width="100">Type</th>
+                    <th>Modified Time</th>
+                    <th>Operation</th>
+                </tr>
+            </thead>
+            <tbody>
+            $for v in fileList:
+                <tr>
+                    <td>
+                        <input type="checkbox" name="chkFile" value="$v.fileName" />
+                        <a href='file?file=$curDir/$v.fileName&action=download'><i class="fa fa-file-o"></i> $v.fileName</a>
+                    </td>
+                    <td>
+                        $v.size
+                    </td>
+                    <td>
+                        $v.type
+                    </td>
+                    <td>
+                        $v.modifiedTime
+                    </td>
+                    <td>
+                        <button class="btn btn-default btn-xs rename" title="$v.fileName"><i class="fa fa-refresh"></i> Download</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript">
+$$(document).ready(function() {
+    $$("button.download").each(function(){
+        $$(this).click(function() {
+
+        });
+    });
+
+});
+</script>

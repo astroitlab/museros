@@ -1,0 +1,326 @@
+$def with (items,beginTime,endTime)
+
+<div class="page-header">
+    <h4><i class="fa fa-image"></i>
+        Imaging Task
+    </h4>
+</div>
+<div class="box" style="min-height: 300px;padding-top: 5px;">
+    <div class="bottomline">
+        <span>From：</span><input type="text" id="txtBegin" class="input-sm" placeholder="2014-05-28" value="$beginTime" />
+        <span>To：</span><input type="text" id="txtEnd" class="input-sm" placeholder="2014-09-28" value="$endTime" />
+        <button id="btnSearch" class="btn btn-success btn-sm search"><i class="fa fa-search fa-fw"></i> Search</button>
+        <button class="btn btn-success btn-sm new pull-right"><i class="fa fa-plus fa-fw"></i> New</button>
+    </div>
+    <table class="table table-hover table-condensed" style="max-height: 300px;">
+        <thead>
+            <tr>
+                <th width="300">Time Span</th>
+                <th>Integration Time(Seconds)</th>
+                <th>Array</th>
+                <th width="160">Create Time</th>
+                <th>Status</th>
+                <th width="260" style="text-align: right;">Operations</th>
+            </tr>
+        </thead>
+        <tbody>
+        $for v in items:
+            <tr>
+                <td>
+                    $v.beginTime ~ $v.endTime
+                </td>
+                <td>
+                    $v.seconds
+                </td>
+                <td>
+                $if v.freq == 1 :
+                    MUSER-I
+                $elif v.freq == 2 :
+                    MUSER-II
+                </td>
+                <td>
+                $v.beginTime
+                </td>
+                </td>
+                <td>
+                $if v.status == 0 :
+                    New Task
+                $elif v.status == 1 :
+                    Waiting...
+                $elif v.status == 2 :
+                    Running...
+                $elif v.status == 3 :
+                    Completed
+                $elif v.status == 4 :
+                    Failed
+                </td>
+
+                <td style="text-align: right;">
+                     <button class="btn btn-warning btn-xs modify" title="$v.id"><i class="fa fa-edit"></i> Modify</button>
+                     <button class="btn btn-danger btn-xs removeone" title="$v.id"><i class="fa fa-trash-o"></i> Remove</button>
+                $if v.status == 0 :
+                     <button class="btn btn-success btn-xs recalucation" title="$v.id"><i class="fa fa-send"></i> Begin</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="modal fade" id="chooseFileDlg" role="dialog" aria-labelledby="chooseFile" aria-hidden="true" style="z-index: 10001">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">Choose Raw File</div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                    <table id="tabRawFiles" class="table table-condensed table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="100"></th>
+                                <th>First Frame Time</th>
+                                <th>Path</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                        </div>
+                </div>
+            </div>
+			<div class="modal-footer">
+                <button class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                <button class="btn btn-success btn-sm" id="btnChooseFile">Ok</button>
+			</div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="createDirDlg" role="dialog" aria-labelledby="CreateDir" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">New Value</div>
+            <div class="modal-body">
+               <form action="imagingOp" method="post" id="saveForm" class="form-horizontal">
+                    <input type="hidden" id="txtAction" name="action" value="save"/>
+                    <input type="hidden" id="txtId" name="id" value="0"/>
+                    <input type="hidden" name="beginTime" value="$beginTime" />
+                    <input type="hidden" name="endTime" value="$endTime" />
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <label for="txtFBeginTime">Time : </label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" id="txtFBeginTime" name="fBeginTime" class="form-control" placeholder="begin" />
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" id="txtFEndTime" name="fEndTime" class="form-control"  placeholder="end"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-3">
+                    <label for="txtSeconds">Integration Time: </label>
+                    </div>
+                    <div class="col-sm-4">
+                    <input type="text" id="txtSeconds" name="seconds" class="form-control" value="" placeholder="Seconds"/>
+                    </div>
+                    <div class="col-sm-2">
+                    <label for="txtFreq">Array : </label>
+                    </div>
+                    <div class="col-sm-3">
+                        <select id="txtFreq" name="freq" class="form-control">
+                            <option value="1">MUSER-I</option>
+                            <option value="2">MUSER-II</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3">
+                    <label for="is_specified_file">Specified File : </label>
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="radio" value="0" name="is_specified_file" checked id="btnNoSpecifyFile" />No,
+                        <input type="radio" value="1" name="is_specified_file" id="btnSpecifyFile"/>Yes
+                    </div>
+
+                    <div class="col-sm-6">
+                        <input type="text" value="" id="txtSpecifiedFile" name="specified_file"  class="form-control" placeholder="Click to choose file"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3">
+                    <label for="gen_result">Result : </label>
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="radio" value="png" name="gen_result" />png,
+                        <input type="radio" value="fits" name="gen_result" />fits,
+                        <input type="radio" value="all" name="gen_result" />all
+                    </div>
+                    <div class="col-sm-3">
+                    <label for="with_axis">With Axis : </label>
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="radio" value="0" name="with_axis" checked />No,
+                        <input type="radio" value="1" name="with_axis"/>Yes
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3">
+                    <label for="format">Fits Format : </label>
+                    </div>
+                    <div class="col-sm-9">
+                        <input type="radio" value="uvfits" name="format" />uvfits,
+                        <input type="radio" value="fitsidi" name="format" />fitsidi,
+                        <input type="radio" value="votable" name="format" />votable
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3">
+                    <label for="description">Description : </label>
+                    </div>
+                    <div class="col-sm-9">
+                    <textarea id="txtDesc" name="description" class="form-control" rows="4"></textarea>
+                    </div>
+                </div>
+                </form>
+            </div>
+			<div class="modal-footer">
+                <button class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                <button class="btn btn-success btn-sm" id="btnSave">Save</button>
+			</div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$$(document).ready(function() {
+    $$("ul li.mi-imaging").addClass('active');
+    $$("#txtSpecifiedFile").hide();
+    $$("#txtBegin").datepicker({dateFormat:"yy-mm-dd"});
+    $$("#txtEnd").datepicker({dateFormat:"yy-mm-dd"});
+    $$("#txtFBeginTime").datepicker({dateFormat:"yy-mm-dd 10:00:00"});
+    $$("#txtFEndTime").datepicker({dateFormat:"yy-mm-dd 11:00:00"});
+    $$("#createDirDlg").modal({backdrop:false,show:false});
+    $$("#createDirDlg").draggable({handle: ".modal-header"});
+    $$("#chooseFileDlg").modal({backdrop:false,show:false});
+    $$("#chooseFileDlg").draggable({handle: ".modal-header"});
+
+
+    $$("button.removeone").each(function(){
+        $$(this).click(function() {
+            if(confirm("Are you sure to remove?"))
+                window.location.href = "imagingOp?&action=remove&id=" + $$(this).attr("title") + "&beginTime=$beginTime&endTime=$endTime";
+        });
+    });
+
+    $$("button.recalucation").each(function(){
+        $$(this).click(function() {
+            if(confirm("Are you sure to begin...?"))
+                window.location.href = "imagingOp?&action=begin&id=" + $$(this).attr("title") + "&beginTime=$beginTime&endTime=$endTime";
+        });
+    });
+
+    $$("button.modify").each(function(){
+        $$(this).click(function() {
+
+            $$("#txtAction").val('edit');
+            $$("#txtId").val($$(this).attr("title"));
+			$$.ajax({url: "imaging?action=view&id="+$$("#txtId").val(),
+				type: "get",
+				dataType: "text",
+				error: function(){
+                    alert("request failed!");
+                },
+				success: function(data) {
+                    var item =  JSON.parse(data);
+                    $$("#txtFBeginTime").val(item.beginTime);
+                    $$("#txtFEndTime").val(item.endTime);
+                    $$("#txtSeconds").val(item.seconds);
+                    $$("#txtFreq").val(item.freq);
+
+                    $$.each($$("input[name='format']"),function(){
+                        if($$(this).val() == item.format) {
+                            $$(this).attr("checked","checked");
+                        }
+                    });
+                    $$.each($$("input[name='is_specified_file']"),function(){
+                        if($$(this).val() == item.is_specified_file) {
+                            $$(this).attr("checked","checked");
+                        }
+                    });
+                    $$.each($$("input[name='gen_result']"),function(){
+                        if($$(this).val() == item.gen_result) {
+                            $$(this).attr("checked","checked");
+                        }
+                    });
+                    $$.each($$("input[name='with_axis']"),function(){
+                        if($$(this).val() == item.with_axis) {
+                            $$(this).attr("checked","checked");
+                        }
+                    });
+                    $$("#txtSpecifiedFile").val(item.specified_file);
+                    if(item.is_specified_file==0)
+                        $$("#txtSpecifiedFile").hide();
+                    else
+                        $$("#txtSpecifiedFile").show();
+                    $$("#txtDesc").val(item.description);
+                    if(item.status!=0) {
+                        alert("task is running, modification is not allowed");
+                        return;
+                    }
+
+                    $$("#createDirDlg").modal('show');
+				}
+			});
+
+            $$("#createDirDlg .modal-header").html("Edit " + $$("#txtFBeginTime").val() + " ~ " + $$("#txtFEndTime").val());
+
+        });
+    });
+    $$("button.new").click(function() {
+        $$("#createDirDlg").modal('show');
+        $$("#txtAction").val('add');
+        $$("#txtId").val('0');
+        $$("#createDirDlg .modal-header").html("New Task");
+    });
+    $$("#btnSpecifyFile").click(function() {
+        $$("#txtSpecifiedFile").show();
+    });
+    $$("#btnNoSpecifyFile").click(function() {
+        $$("#txtSpecifiedFile").hide();
+    });
+    $$("#txtSpecifiedFile").click(function() {
+        if($$("#txtFBeginTime").val()=='' || $$("#txtFEndTime").val()=='') {
+            alert("please input beginning and end time firstly.");
+            return;
+        }
+        $$.ajax({url: "rawfile?&btime="+$$("#txtFBeginTime").val()+"&etime="+$$("#txtFEndTime").val()+"&freq="+$$("#txtFreq").val(),
+            type: "get",
+            dataType: "text",
+            error: function(){
+                alert("request raw files failed!");
+            },
+            success: function(data) {
+                var items =  JSON.parse(data);
+                $$("#tabRawFiles tbody").empty();
+                for(var i=0;i<items.length;i++) {
+                    $$("#tabRawFiles tbody").append("<tr><td><input type='radio' value='"+items[i].path+"' name='rawfileradio'></td><td>"
+                            +items[i].startTime+"</td><td>"+items[i].path+"</td></tr>");
+                }
+                $$("#chooseFileDlg").modal('show');
+            }
+        });
+    });
+
+    $$("#btnChooseFile").click(function() {
+        $$("#chooseFileDlg").modal('hide');
+        alert($$("input[name='rawfileradio']:checked").val());
+        $$("#txtSpecifiedFile").val($$("input[name='rawfileradio']:checked").val());
+    });
+    $$("#btnSearch").click(function() {
+        window.location.href = 'imaging?beginTime=' + $$("#txtBegin").val() + '&endTime=' + $$("#txtEnd").val()
+    });
+    $$("#btnSave").click(function() {
+        $$("#saveForm").submit();
+    });
+
+});
+</script>

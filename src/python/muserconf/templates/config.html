@@ -1,0 +1,140 @@
+$def with (items,key,keyNames)
+
+<div class="page-header">
+    <h4><i class="fa fa-gears"></i>
+        Configuration
+    </h4>
+</div>
+<div class="box" style="min-height: 300px;padding-top: 5px;">
+    <div class="bottomline">
+        <span>Key：</span>
+        <span>
+            <select id="txtFindKey" name="key" class="input-sm">
+                <option value="">All</option>
+                $for v in keyNames:
+                    <option value="$v.keyName">$v.keyName</option>
+            </select>
+        </span>
+        <button id="btnSearch" class="btn btn-success btn-sm search"><i class="fa fa-search fa-fw"></i> Search</button>
+        <button class="btn btn-success btn-sm new pull-right"><i class="fa fa-plus fa-fw"></i> New</button>
+    </div>
+    <table class="table table-hover table-condensed" style="max-height: 300px;">
+        <thead>
+            <tr>
+                <th width="100">Key</th>
+                <th>Value</th>
+                <th>Time</th>
+                <th width="200">Operation</th>
+            </tr>
+        </thead>
+        <tbody>
+        $for v in items:
+            <tr>
+                <td>
+                    $v.keyName
+                </td>
+                <td>
+                    $v.theValue
+                </td>
+                <td>
+                    $v.createTime
+                </td>
+
+                <td>
+                    <button class="btn btn-info btn-xs modify" title="$v.id"><i class="fa fa-edit"></i> Modify</button>
+                    <button class="btn btn-danger btn-xs removeone" title="$v.id"><i class="fa fa-trash-o"></i> Remove</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="modal fade" id="createDirDlg" role="dialog" aria-labelledby="CreateDir" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">New Value</div>
+            <div class="modal-body">
+               <form action="configOp" method="post" id="saveForm">
+                    <input type="hidden" id="txtSet" name="key" value="$key"/>
+                    <input type="hidden" id="txtAction" name="action" value="save"/>
+                    <input type="hidden" id="txtId" name="id" value="0"/>
+                <div class="form-group">
+                    <label for="txtKeyName">Key : </label>
+                    <select id="txtKeyName" name="keyName" class="form-control">
+
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="txtTheValue">Value : </label>
+                    <input type="text" id="txtTheValue" name="theValue" class="form-control" value="0"  />
+                </div>
+                <div class="form-group">
+                    <label for="txtCreateTime">Create Time : </label>
+                    <input type="text" id="txtCreateTime" name="createTime" class="form-control" value=""  />
+                </div>
+                </form>
+            </div>
+			<div class="modal-footer">
+                <button class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                <button class="btn btn-success btn-sm" id="btnSave">Save</button>
+			</div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$$(document).ready(function() {
+    var key = "$key";
+    $$("ul li.mi-config").addClass('active');
+    $$("#createDirDlg").modal({backdrop:false,show:false});
+    $$("#createDirDlg").draggable({handle: ".modal-header"});
+    $$("#txtCreateTime").datepicker({dateFormat:"yy-mm-dd 01:01:01"});
+    $$("#txtFindKey").val(key);
+
+    $$("#txtFindKey option").each(function(index){
+        if($$(this).val()!="")
+            $$("#txtKeyName").append($$("<option></option>").text($$(this).val()).val($$(this).val()));
+    });
+    $$("button.modify").each(function(){
+        $$(this).click(function() {
+            $$("#createDirDlg").modal('show');
+            $$("#txtAction").val('edit');
+            $$("#txtId").val($$(this).attr("title"));
+			$$.ajax({url: "configInfo?id="+$$("#txtId").val(),
+				type: "get",
+				dataType: "text",
+				error: function(){
+                    alert("request failed!");
+                },
+				success: function(jsondata) {
+                    var item = JSON.parse(jsondata);
+                    $$("#txtKeyName").val(item.keyName);
+                    $$("#txtTheValue").val(item.theValue);
+                    $$("#txtCreateTime").val(item.createTime);
+				}
+			});
+
+            $$("#createDirDlg .modal-header").html("Edit Value " + $$("#txtKeyName").val());
+
+        });
+    });
+
+    $$("#btnSearch").click(function() {
+        window.location.href = 'config?key='+$$("#txtFindKey").val();
+    });
+    $$("#btnSave").click(function() {
+        $$("#saveForm").submit();
+    });
+    $$("button.new").click(function() {
+        $$("#createDirDlg").modal('show');
+        $$("#txtAction").val('add');
+        $$("#txtTheValue").val("");
+        $$("#createDirDlg .modal-header").html("New Value");
+    });
+    $$("button.removeone").each(function(){
+        $$(this).click(function() {
+            if(confirm("Are you sure to remove?"))
+                window.location.href = "configOp?action=remove&key=$key&id=" + $$(this).attr("title");
+        });
+    });
+});
+</script>

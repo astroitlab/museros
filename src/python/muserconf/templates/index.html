@@ -1,0 +1,177 @@
+$def with (items,redisState,mysqlState,redis_dump_ver,sqlite_dump_ver)
+
+<div class="page-header" style="border: 0px;">
+    <h3><i class="fa fa-table"></i> Overview</h3>
+</div>
+<div class="box">
+    <table class="table table-condensed">
+        <tbody>
+            <tr>
+                <th><i class="fa fa-file"></i> Raw Files:</th><td><span class="label label-warning">$items["rawfileCount"]</span></td>
+                <th>Last Time:</th><td>$items["rawfileLastTime"]</td>
+                <td colspan="4"></td>
+            </tr>
+            <tr>
+                <th><i class="fa fa-align-justify"></i> Integration Tasks:</th><td><span class="label label-warning">$items["integration"]["tasks"]</span></td>
+                <th>Runing:</th><td><span class="label label-info">$items["integration"]["running"]</span></td>
+                <th>Failed:</th><td><span class="label label-danger">$items["integration"]["error"]</span></td>
+                <th>Finished:</th><td><span class="label label-success">$items["integration"]["finished"]</span></td>
+            </tr>
+            <tr>
+                <th><i class="fa fa-image"></i> Imaging Tasks:</th><td><span class="label label-warning">$items["imaging"]["tasks"]</span></td>
+                <th>Runing:</th><td><span class="label label-info">$items["imaging"]["running"]</span></td>
+                <th>Failed:</th><td><span class="label label-danger">$items["imaging"]["error"]</span></td>
+                <th>Finished:</th><td><span class="label label-success">$items["imaging"]["finished"]</span></td>
+            </tr>
+            <tbody>
+        </tbody>
+    </table>
+</div>
+<div class="page-header" style="border: 0px;">
+    <h3><i class="fa fa-rss"></i> Latest Infos</h3>
+</div>
+<div class="box">
+    <table class="table table-condensed">
+        <tbody>
+            <tr>
+                <th>Antenna Position:</th><td>
+                    $if len(items["position"][0]) > 60:
+                        $items["position"][0][0:60]<a title='$items["position"][0]'>...</a>
+                    $else :
+                        $items["position"][0]
+                </td>
+                <td>
+                    $if len(items["position"][1]) > 60:
+                        $items["position"][1][0:60]<a title='$items["position"][1]'>...</a>
+                    $else :
+                        $items["position"][1]
+                </td>
+            </tr>
+            <tr>
+                <th>Antenna Delay:</th><td>
+                    $if len(items["delay"][0]) > 60:
+                        $items["delay"][0][0:60]<a title='$items["delay"][0]'>...</a>
+                    $else :
+                        $items["delay"][0]
+                </td>
+                <td>
+                    $if len(items["delay"][1]) > 60:
+                        $items["delay"][1][0:60]<a title='$items["delay"][1]'>...</a>
+                    $else :
+                        $items["delay"][1]
+                </td>
+            </tr>
+            <tr>
+                <th>Antenna Flag:</th><td>
+                    $if len(items["flag"][0]) > 60:
+                        $items["flag"][0][0:60]<a title='$items["flag"][0]'>...</a>
+                    $else :
+                        $items["flag"][0]
+                </td>
+                <td>
+                    $if len(items["flag"][1]) > 60:
+                        $items["flag"][1][0:60]<a title='$items["flag"][1]'>...</a>
+                    $else :
+                        $items["flag"][1]
+                </td>
+            </tr>
+            <tr>
+                <th>Weather:</th><td colspan="2">
+                    $if len(items["weather"]) > 120:
+                        $items["weatherTime"]  $items["weather"][0:120]<a title='$items["weather"]'>...</a>
+                    $else :
+                        $items["weatherTime"]  $items["weather"]
+                </td>
+            </tr>
+            <tbody>
+        </tbody>
+    </table>
+</div>
+
+<div class="page-header">
+    <h3><i class="fa fa-retweet"></i> Data Servers</h3>
+</div>
+<div class="row">
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            $if mysqlState :
+                <div class="dashboard-stat green-haze">
+            $else:
+                <div class="dashboard-stat red-haze">
+            <div class="visual">
+                <i class="fa fa-database"></i>
+            </div>
+            <div class="details">
+                <div class="number">
+                    MySQL
+                </div>
+                <div class="desc">
+                    $if mysqlState :
+                        Version: $mysqlState
+                    $else :
+                        Disconnected
+                </div>
+            </div>
+            <button id="btnMySQL" class="btn btn-info btn-sm form-control"></button>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            $if redisState :
+                <div class="dashboard-stat green-haze">
+            $else:
+                <div class="dashboard-stat red-haze">
+
+            <div class="visual">
+                <i class="fa fa-cubes"></i>
+            </div>
+            <div class="details">
+                <div class="number">
+                    Redis
+                </div>
+                <div class="desc">
+                    $if redisState :
+                        Version: $redisState <br>DumpVer:$redis_dump_ver['result']
+                    $else :
+                        Disconnected
+                </div>
+            </div>
+            <button id="btnRedis" class="btn btn-info btn-sm form-control"><i class="fa fa-database fa-fw"></i> Dump2Redis</button>
+            </div>
+
+    </div>
+
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <div class="dashboard-stat green-haze">
+            <div class="visual">
+                <i class="fa fa-file-text-o"></i>
+            </div>
+            <div class="details">
+                <div class="number">
+                    Sqlite
+                </div>
+                <div class="desc">
+                    Version:Sqlite3
+                    <br>
+                    DumpVer: $sqlite_dump_ver
+                </div>
+            </div>
+            <button id="btnDump" class="btn btn-info btn-sm form-control"><i class="fa fa-database fa-fw"></i> Dump2Sqlite</button>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+$$(document).ready(function() {
+	$$("ul li.mi-index").addClass('active');
+    $$(".dashboard-welcome").removeClass("hidden");
+    $$("#centerContext").removeAttr("style");
+    $$("#btnDump").click(function() {
+        window.location.href = 'dump2sqlite';
+    });
+    $$("#btnRedis").click(function() {
+        window.location.href = 'dump2redis';
+    });
+
+});
+</script>

@@ -1,0 +1,160 @@
+$def with (items,key,beginTime,endTime)
+
+<div class="page-header">
+    <h4><i class="fa fa-gears"></i>
+
+        $if key == "1" :
+            Low Frequency Calibration Position
+        $if key == "2" :
+            High Frequency Calibration Position
+
+        Configuration
+    </h4>
+</div>
+<div class="box" style="min-height: 300px;padding-top: 5px;">
+    <div class="bottomline">
+        <span>From：</span><input type="text" id="txtBegin" class="input-sm" placeholder="2014-05-28" value="$beginTime" />
+        <span>To：</span><input type="text" id="txtEnd" class="input-sm" placeholder="2014-09-28" value="$endTime" />
+        <button id="btnSearch" class="btn btn-success btn-sm search"><i class="fa fa-search fa-fw"></i> Search</button>
+        <button class="btn btn-success btn-sm new pull-right"><i class="fa fa-plus fa-fw"></i> New</button>
+    </div>
+    <table class="table table-hover table-condensed" style="max-height: 300px;">
+        <thead>
+            <tr>
+                <th width="220">Time</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Skipping Frame Count</th>
+                <th>Generated File</th>
+                <th width="300">Operation</th>
+            </tr>
+        </thead>
+        <tbody>
+        $for v in items:
+            <tr>
+                <td>
+                    $v.ctime
+                </td>
+                <td>
+                    $v.priority
+                </td>
+                <td>
+                $if v.status == 0 :
+                    init
+                $else :
+                    completion
+                </td>
+                <td>
+                    $v.offset
+                </td>
+                <td>
+                    $if v.theValue and len(v.theValue) > 70:
+                        $v.theValue[0:70] ......
+                    $else :
+                        $v.theValue
+                </td>
+
+                <td>
+                     <button class="btn btn-info btn-xs modify" title="$v.id"><i class="fa fa-edit"></i> Modify</button>
+                     <button class="btn btn-danger btn-xs removeone" title="$v.id"><i class="fa fa-trash-o"></i> Remove</button>
+                     <button class="btn btn-success btn-xs recalucation" title="$v.id"><i class="fa fa-refresh"></i> ReCalucation</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="modal fade" id="createDirDlg" role="dialog" aria-labelledby="CreateDir" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">New Value</div>
+            <div class="modal-body">
+               <form action="calibrationOp" method="post" id="saveForm" class="form-horizontal">
+                    <input type="hidden" id="txtSet" name="key" value="$key"/>
+                    <input type="hidden" id="txtAction" name="action" value="save"/>
+                    <input type="hidden" id="txtId" name="id" value="0"/>
+                    <input type="hidden" name="beginTime" value="$beginTime" />
+                    <input type="hidden" name="endTime" value="$endTime" />
+                <div class="form-group">
+                    <label for="ctime">Time : </label>
+                    <input type="text" id="txtCtime" name="ctime" class="form-control" value="$endTime" />
+                </div>
+                <div class="form-group">
+                    <label for="priority">Priority : </label>
+                    <input type="text" id="txtPriority" name="priority" class="form-control" value="0"  />
+                </div>
+                <div class="form-group">
+                    <label for="offset">Offset : </label>
+                    <input type="text" id="txtOffset" name="offset" class="form-control" value="10"  />
+                </div>
+                </form>
+            </div>
+			<div class="modal-footer">
+                <button class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                <button class="btn btn-success btn-sm" id="btnSave">Save</button>
+			</div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$$(document).ready(function() {
+    var key = "$key";
+    $$("#txtBegin").datepicker({dateFormat:"yy-mm-dd"});
+    $$("#txtEnd").datepicker({dateFormat:"yy-mm-dd"});
+    $$("#txtCtime").datepicker({dateFormat:"yy-mm-dd 10:20:00"});
+
+    $$("#createDirDlg").modal({backdrop:false,show:false});
+    $$("#createDirDlg").draggable({handle: ".modal-header"});
+
+    $$("button.removeone").each(function(){
+        $$(this).click(function() {
+            if(confirm("Are you sure to remove?"))
+                window.location.href = "calibrationOp?key=$key&action=remove&id=" + $$(this).attr("title") + "&beginTime=$beginTime&endTime=$endTime";
+        });
+    });
+
+    $$("button.recalucation").each(function(){
+        $$(this).click(function() {
+            if(confirm("Are you sure to recalucation?"))
+                window.location.href = "calibrationOp?key=$key&action=recalucation&id=" + $$(this).attr("title") + "&beginTime=$beginTime&endTime=$endTime";
+        });
+    });
+
+    $$("button.modify").each(function(){
+        $$(this).click(function() {
+            $$("#createDirDlg").modal('show');
+            $$("#txtAction").val('edit');
+            $$("#txtId").val($$(this).attr("title"));
+			$$.ajax({url: "calibration?action=view&id="+$$("#txtId").val(),
+				type: "get",
+				dataType: "text",
+				error: function(){
+                    alert("request failed!");
+                },
+				success: function(data) {
+                    var item = JSON.parse(data);
+                    $$("#txtCtime").val(item.ctime);
+                    $$("#txtPriority").val(item.priority);
+                    $$("#txtOffset").val(item.offset);
+				}
+			});
+
+            $$("#createDirDlg .modal-header").html("Edit " + $$("#txtCtime").val());
+
+        });
+    });
+    $$("button.new").click(function() {
+        $$("#createDirDlg").modal('show');
+        $$("#txtAction").val('add');
+        $$("#txtId").val('0');
+        $$("#createDirDlg .modal-header").html("New Value");
+    });
+    $$("#btnSearch").click(function() {
+        window.location.href = 'calibration?key=$key&beginTime=' + $$("#txtBegin").val() + '&endTime=' + $$("#txtEnd").val()
+    });
+    $$("#btnSave").click(function() {
+        $$("#saveForm").submit();
+    });
+
+});
+</script>

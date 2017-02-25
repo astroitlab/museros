@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" ?>
+<muserxml xmlns="http://casa.nrao.edu/schema/psetTypes.html"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://casa.nrao.edu/schema/casa.xsd
+      file:///opt/casa/code/xmlcasa/xml/casa.xsd">
+
+<task type="function" name="exportphase" category="import/export">
+	<shortdescription>Convert a MUSER satellite visibility file into a calibration file</shortdescription>
+	<description>
+        Convert a MUSER satellite visibility file into a calibration file
+	</description>
+	<input>
+		<param type="int" name="muser">
+			<description>Sub array ID (1 - low/ 2:high)</description>
+			<value>1</value>
+                        <example>muser=0</example>
+		</param>
+
+        <param type="xs:dateTime" name="start">
+			<description>The start date and time of MUSER raw data</description>
+			<value></value>
+                        <example>start='2016-02-18 09:30:10.5'</example>
+		</param>
+
+		<param type="string" name="inputfile" mustexist="true">
+			<description>Name of input MUSER visibility file</description>
+			<value></value>
+                        <example>inputfile='mydata'</example>
+		</param>
+
+		<param type="int" name="frame">
+			<description>The number of skipped frames</description>
+			<value>1</value>
+		</param>
+
+		<param type="int" name="calibration">
+			<description>The number of calibration </description>
+			<value>1</value>
+                        <example>calibration=1</example>
+		</param>
+
+		<param type="int" name="debug">
+			<description>Display increasingly verbose debug messages</description>
+			<value>0</value>
+                        <example>debug=1</example>
+		</param>
+                <constraints>
+                </constraints>
+	</input>
+<returns type="void"/>
+
+<example>
+
+        exportphase(muser=1, inputfile='CSRH20151101', frame=1, calibration=0)
+
+ </example>
+ </task>
+ </muserxml>

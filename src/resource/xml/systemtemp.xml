@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config>
+    <home>/Users/wangfeng/museros</home>
+    <work>/Users/wangfeng/muserdata/work</work>
+    <archive>/Users/wangfeng/muserdata/archive</archive>
+    <datasource>database</datasource>
+    <sqlite>muser.db</sqlite>
+    <redis>172.31.254.25:6379</redis>
+</config>
+
