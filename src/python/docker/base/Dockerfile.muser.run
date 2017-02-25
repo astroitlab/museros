@@ -1,6 +1,0 @@
-from opencluster:origin
-MAINTAINER Shoulin Wei "wsl@cnlab.net"
-ADD scripts /bin/scripts
-RUN chmod a+x /bin/scripts/start.sh && useradd wsl -p wsl && echo "export 172.31.254.24   kafka.cnlab.net" >> /etc/hosts && echo "export 172.31.252.180  devwslc7.cnlab.net" >> /etc/hosts && echo "export 172.31.252.181  devwslc71.cnlab.net" >> /etc/hosts && echo "export 172.31.252.182  devwslc72.cnlab.net" >> /etc/hosts
-USER wsl
-ENTRYPOINT ["/bin/scripts/start.sh"]
